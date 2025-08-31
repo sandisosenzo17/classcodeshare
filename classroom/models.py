@@ -38,6 +38,32 @@ class Task(models.Model):
     return f"{self.created_at}\n{self.title} from session: {self.session.name}"
 
 
+# This is a response from the guest to the host
+class Submission(models.Model):
+  task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="submissions")
+  guest = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="submissions")
+  code = models.TextField()
+  code_result = models.TextField()
+  time = models.DateTimeField(auto_now_add=True)
+  geo_latitude = models.FloatField(null=True, blank=True)
+  geo_longitude = models.FloatField(null=True, blank=True)
+  late_submission = models.BooleanField(default=False)
+
+  def __str__(self):
+    return f"Task: {self.task.title} by {self.guest.user.username}"
+
+
 # Track the tasks created and submitted with their timestamps
 class ActivityLog(models.Model):
-  pass
+  Actions = [
+    ("task_created", "Task Created"),
+    ("task_submitted", "Task Submitted"),
+    ("code_executed", "Code Executed")
+  ]
+
+  user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="activity_logs")
+  action = models.CharField(max_length=30, choices=Actions)
+  time = models.DateTimeField(auto_now_add=True)
+  
+  def __str__(self):
+    return f"{self.user.username} did {self.action} at {self.time}"
