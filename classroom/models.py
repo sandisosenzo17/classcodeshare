@@ -1,5 +1,8 @@
 from django.db import models
-from django.contrib.auth import User
+from django.contrib.auth import get_user_model
+
+# Retrieve the default User object
+User = get_user_model()
 
 # Details of the user and their role in the session
 class UserProfile(models.Model):
