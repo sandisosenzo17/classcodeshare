@@ -58,15 +58,3 @@ Prerequisites
 - Python 3.x
 
 - Django & Django REST Framework installed
-
-Setup
-#
-git clone <repository_url>
-cd codeshare
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-#
-
-Access admin panel at: http://127.0.0.1:8000/admin/
